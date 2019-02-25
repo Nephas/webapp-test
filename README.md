@@ -27,6 +27,8 @@ $ git push heroku master
 $ heroku open
 ```
 
+Link: https://limitless-temple-67937.herokuapp.com/
+
 or
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
