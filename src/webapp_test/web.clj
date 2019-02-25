@@ -6,16 +6,11 @@
             [ring.adapter.jetty :as jetty]
             [environ.core :refer [env]]))
 
-(defn splash []
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "Hello from Heroku"})
-
 (defroutes app
-  (GET "/" []
-       (splash))
-  (ANY "*" []
-       (route/not-found (slurp (io/resource "404.html")))))
+           (GET "/" []
+             (slurp (io/resource "home.html")))
+           (ANY "*" []
+             (route/not-found (slurp (io/resource "404.html")))))
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))]
