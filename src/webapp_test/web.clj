@@ -7,15 +7,10 @@
             [environ.core :refer [env]]))
 
 (defroutes app
-           (GET "/" []
-             (slurp (io/resource "home.html")))
-           (ANY "*" []
-             (route/not-found (slurp (io/resource "404.html")))))
+           (GET "/" [] (slurp (io/resource "index.html")))
+           (route/resources "/")
+           (route/not-found (slurp (io/resource "404.html"))))
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))]
     (jetty/run-jetty (site #'app) {:port port :join? false})))
-
-;; For interactive development:
-;; (.stop server)
-;; (def server (-main))
