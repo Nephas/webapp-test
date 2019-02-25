@@ -22,9 +22,9 @@
   :cljsbuild {:builds [; development build with figwheel hot swap
                        {:id           "development"
                         :source-paths ["src"]
-                        :figwheel     true
                         :compiler
                                       {:main       "sketch.core"
+                                       :optimizations :advanced
                                        :output-to  "resources/public/js/main.js"
                                        :output-dir "resources/public/js/development"
                                        :asset-path "js/development"}}
@@ -36,4 +36,5 @@
                                        :output-to     "resources/public/js/main.js"
                                        :output-dir    "resources/public/js/optimized"
                                        :asset-path    "js/optimized"
-                                       :optimizations :advanced}}]})
+                                       :optimizations :advanced
+                                       }}]})
