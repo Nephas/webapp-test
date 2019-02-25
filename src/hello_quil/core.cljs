@@ -32,7 +32,7 @@
       ; Draw the circle.
       (q/ellipse x y 100 100))))
 
-; this function is called in index.html
+; this function is called in home.html
 (defn ^:export run-sketch []
   (q/defsketch hello-quil
     :host "hello-quil"
