@@ -18,19 +18,21 @@
   :uberjar-name "server-standalone.jar"
   :profiles {:production {:env {:production true}}}
 
-  :clean-targets ["resources/public/js"]
+  :clean-targets ^{:protect false} ["resources/public/js"]
   :cljsbuild {:builds [; development build with figwheel hot swap
                        {:id           "development"
                         :source-paths ["src"]
-                        :compiler     {:main          "sketch.core"
+                        :compiler
+                                      {:main       "sketch.core"
                                        :optimizations :advanced
-                                       :output-to     "resources/public/js/main.js"
-                                       :output-dir    "resources/public/js/development"
-                                       :asset-path    "js/development"}}
+                                       :output-to  "resources/public/js/main.js"
+                                       :output-dir "resources/public/js/development"
+                                       :asset-path "js/development"}}
                        ; minified and bundled build for deployment
                        {:id           "optimized"
                         :source-paths ["src"]
-                        :compiler     {:main          "sketch.core"
+                        :compiler
+                                      {:main          "sketch.core"
                                        :output-to     "resources/public/js/main.js"
                                        :output-dir    "resources/public/js/optimized"
                                        :asset-path    "js/optimized"
