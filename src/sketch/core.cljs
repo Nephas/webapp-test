@@ -1,50 +1,40 @@
 (ns sketch.core
   (:require [quil.core :as q :include-macros true]
-            [quil.middleware :as m]))
+            [quil.middleware :as mw]
+            [hexworld.draw :as d]
+            [hexworld.key :as k]
+            [hexworld.map :as m]
+            [hexworld.state :as s]))
+
+(def store (atom {}))
 
 (defn setup []
-  ; Set frame rate to 30 frames per second.
-  (q/frame-rate 30)
-  ; Set color mode to HSB (HSV) instead of default RGB.
-  (q/color-mode :hsb)
-  ; setup function returns initial state. It contains
-  ; circle color and position.
-  {:color 0
-   :angle 0})
+  (q/frame-rate 2)
+  (q/color-mode :hsb 1.0 1.0 1.0)
+  (s/init-state))
+
+(defn get-ocean-area [tiles sea-level]
+  (count (filter #(< (:height %) sea-level) tiles)))
 
 (defn update-state [state]
-  ; Update sketch state by changing circle color and position.
-  {:color (mod (+ (:color state) 0.7) 255)
-   :angle (+ (:angle state) 0.1)})
+  (let [sea-level (get-in state [:globals :sea-level])
+        new-state (-> state
+                      (assoc-in [:globals :ocean-area] (get-ocean-area (m/get-tiles state) sea-level)))]
+    (do (swap! store (fn [_] new-state))
+        new-state)))
 
 (defn draw-state [state]
-  ; Clear the sketch by filling it with light-grey color.
   (q/background 240)
-  ; Set circle color.
-  (q/fill (:color state) 255 255)
-  ; Calculate x and y coordinates of the circle.
-  (let [angle (:angle state)
-        x (* 150 (q/cos angle))
-        y (* 150 (q/sin angle))]
-    ; Move origin point to the center of the sketch.
-    (q/with-translation [(/ (q/width) 2)
-                         (/ (q/height) 2)]
-                        ; Draw the circle.
-                        (q/rect x y 100 100))))
+  (d/draw-map (m/get-tiles state)
+              (get-in state [:globals :draw-method])
+              (get-in state [:globals :scale])))
 
-; this function is called in index.html
 (q/defsketch -main
-             :host "hello-quil"
-             :size [500 500]
-             ; setup function called only once, during sketch initialization.
+             :host "canvas"
+             :title "hexworld"
+             :size [640 640]
              :setup setup
-             ; update-state is called on each iteration before draw-state.
              :update update-state
+             :key-pressed k/handle-key
              :draw draw-state
-             ; This sketch uses functional-mode middleware.
-             ; Check quil wiki for more info about middlewares and particularly
-             ; fun-mode.
-             :middleware [m/fun-mode])
-
-; uncomment this line to reset the sketch:
-; (run-sketch)
+             :middleware [mw/fun-mode])

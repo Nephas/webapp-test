@@ -5,11 +5,11 @@
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.10.439"]
                  [compojure "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
                  [environ "1.0.0"]
-                 [quil "2.8.0"]
-                 [org.clojure/clojurescript "1.10.439"]]
+                 [quil "2.8.0"]]
   :plugins [[environ/environ.lein "0.3.1"]
             [lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.15"]]
