@@ -10,5 +10,5 @@
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.3.1"]]
   :hooks [environ.leiningen.hooks]
-  :uberjar-name "webapp-test-standalone.jar"
+  :uberjar-name "server-standalone.jar"
   :profiles {:production {:env {:production true}}})
